@@ -1,0 +1,18 @@
+<mat-toolbar color="primary" class="navbar">
+  <span class="logo">
+    <a
+      mat-button
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact: true}"
+    >
+      <mat-icon>trending_up</mat-icon> CATS Crypto Market
+    </a>
+  </span>
+
+  <span class="spacer"></span>
+  <nav>
+    <a mat-button routerLink="/crypto-prices" routerLinkActive="active">Much Price</a>
+    <a mat-button routerLink="/buy-ticket" routerLinkActive="active">Buy Tickets</a>
+  </nav>
+</mat-toolbar>

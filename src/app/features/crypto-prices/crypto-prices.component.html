@@ -1,0 +1,82 @@
+<div class="cards-container">
+  <div class="card-wrapper">
+    <mat-card appearance="outlined" role="region" aria-labelledby="dogecoin-title">
+      <mat-card-header>
+        <mat-card-title>Dogecoin (DOGE)</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <img
+          mat-card-image
+          src="https://cdn.worldvectorlogo.com/logos/dogecoin-1.svg"
+          alt="Dogecoin logo: a golden Shiba Inu dog"
+          width="80"
+          height="80"
+        />
+
+        <div aria-live="polite" aria-atomic="true" class="data-container">
+          @if (dogecoinData$ | async; as dogecoinData) {
+          <p><strong>Current Price:</strong> {{ dogecoinData?.priceUsd | currency }}</p>
+          <p><strong>24h Volume:</strong> ${{ dogecoinData?.volumeUsd24Hr ?? '' | shortNumber }}</p>
+          <p>
+            <strong>24h Change:</strong> {{ dogecoinData?.changePercent24Hr ?? '' | shortNumber }}%
+          </p>
+          <p><strong>Market Cap:</strong> ${{ dogecoinData?.marketCapUsd ?? '' | shortNumber }}</p>
+          } @else {
+          <p>Loading data...</p>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="card-wrapper">
+    <mat-card appearance="outlined" role="region" aria-labelledby="crypto-chart-title">
+      <mat-card-header>
+        <mat-card-title>The Top Exchange Platform </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <img
+          mat-card-image
+          src="https://imgs.search.brave.com/HEPm8gOt_7kH_rH95avWUfFS2-tAu77XETKOiL7dflY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/Y29ycG9yYXRlZmlu/YW5jZWluc3RpdHV0/ZS5jb20vYXNzZXRz/L0Fkb2JlU3RvY2tf/MTY1NjA2MTExLTEw/MjR4NjY1LmpwZWc"
+          alt="Cryptocurrency trend chart showing an upward curve"
+          width="150"
+          height="100"
+        />
+        <div aria-live="polite" aria-atomic="true" class="data-container">
+          @if (exchanges$ | async; as exchanges) {
+          <p><strong>Top Exchange:</strong> {{ exchanges[0].name }}</p>
+          <p><strong>24h Volume:</strong> ${{ exchanges[0].volumeUsd | shortNumber }}</p>
+          } @else {
+          <p>Loading data...</p>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChange($event)" role="tablist">
+  <!-- Much Price Table -->
+  <mat-tab label="Markets" role="tab" aria-controls="markets-panel">
+    <div id="markets-panel" role="tabpanel">
+      <app-data-table
+        [data]="(muchPriceData$ | async) ?? []"
+        [columns]="muchPriceColumns"
+        aria-label="Cryptocurrency market prices table"
+      >
+      </app-data-table>
+    </div>
+  </mat-tab>
+
+  <!-- Best Exchange Table -->
+  <mat-tab label="Best Exchange" role="tab" aria-controls="best-exchange-panel">
+    <div id="best-exchange-panel" role="tabpanel">
+      <app-data-table
+        [data]="(exchanges$ | async) ?? []"
+        [columns]="bestExchangesColumns"
+        aria-label="Best cryptocurrency exchanges table"
+      >
+      </app-data-table>
+    </div>
+  </mat-tab>
+</mat-tab-group>

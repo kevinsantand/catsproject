@@ -1,0 +1,16 @@
+.purchase-card {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+
+  & mat-card-title {
+    text-align: center;
+    padding-bottom: 10px;
+  }
+}
+
+mat-form-field {
+  margin-bottom: 16px;
+}

@@ -1,0 +1,28 @@
+<table mat-table [dataSource]="data" class="mat-elevation-z8">
+  @for (col of columns; track col.name) {
+  <ng-container [matColumnDef]="col.name">
+    <th mat-header-cell *matHeaderCellDef>{{ col.label }}</th>
+    <td mat-cell *matCellDef="let row">
+      @switch (col.type) { @case (TableColumnType.Currency) {
+      {{ row[col.property] | number : '1.2-2' }} $ } @case (TableColumnType.Percentage) {
+      <span
+        [ngClass]="{
+          'positive': col.name === 'change' && row[col.property] > 0,
+          'negative': col.name === 'change' && row[col.property] < 0
+        }"
+      >
+        {{ row[col.property] | number : '1.2-2' }}%
+      </span>
+      } @case (TableColumnType.NameSymbol) {
+      {{ row[col.property] }} ({{ row.symbol }}) } @case (TableColumnType.BigNumber) {
+      {{ row[col.property] | shortNumber }}
+      } @default {
+      {{ row[col.property] }}
+      } }
+    </td>
+  </ng-container>
+  }
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
