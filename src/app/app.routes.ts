@@ -1,4 +1,3 @@
-import {TransportTicketPurchaseComponent} from './features/transport-ticket-purchase/transport-ticket-purchase.component';
 import {Routes} from '@angular/router';
 
 export const routes: Routes = [

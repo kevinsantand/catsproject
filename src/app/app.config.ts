@@ -12,7 +12,8 @@ export const APP_SETTINGS = {
     list: ['bitcoin', 'ethereum', 'dogecoin'],
   },
   refresh: {
-    interval: 30000,
+    shortInterval: 4000,
+    longInterval: 10000,
   },
 } as const;
 

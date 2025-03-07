@@ -1,28 +1,39 @@
-<mat-card class="purchase-card">
-  <mat-card-title>Buyin tickets </mat-card-title>
+<mat-card>
+  <mat-card-title>Buy a ticket </mat-card-title>
   <mat-card-content>
     <form [formGroup]="purchaseForm">
       <mat-form-field appearance="fill">
-        <mat-label>Nombre de tickets</mat-label>
+        <mat-label>Number of tickets</mat-label>
         <input matInput formControlName="numberOfTickets" type="number" min="1" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Prix par ticket (USD)</mat-label>
+        <mat-label>Ticket Price (USD)</mat-label>
         <input matInput formControlName="ticketPriceUsd" type="number" readonly />
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Coût total en USD</mat-label>
-        <input matInput formControlName="totalCostUsd" type="number" readonly />
-      </mat-form-field>
+      <div aria-live="polite" aria-atomic="true">
+        <mat-form-field appearance="fill">
+          <mat-label>Total Cost USD</mat-label>
+          <input matInput formControlName="totalCostUsd" type="number" readonly />
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Coût total en Dogecoin</mat-label>
-        <input matInput formControlName="totalCostDoge" type="number" readonly />
-      </mat-form-field>
+      <div aria-live="polite" aria-atomic="true">
+        <mat-form-field appearance="fill">
+          <mat-label>Total Cost Dogecoin</mat-label>
+          <input matInput formControlName="totalCostDoge" type="number" readonly />
+        </mat-form-field>
+      </div>
       <div>
-        <button mat-raised-button color="primary" (click)="purchaseTickets()">Acheter</button>
+        <button
+          mat-raised-button
+          color="primary"
+          aria-label="Acheter les tickets"
+          (click)="purchaseTickets()"
+        >
+          Buy
+        </button>
       </div>
     </form>
   </mat-card-content>

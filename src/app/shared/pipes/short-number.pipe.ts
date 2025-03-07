@@ -9,11 +9,11 @@ export class ShortNumberPipe implements PipeTransform {
     if (isNaN(num)) return '0';
 
     if (num >= 1e12) {
-      return (num / 1e12).toFixed(2) + 't';
+      return (num / 1e12).toFixed(2) + 'T';
     } else if (num >= 1e9) {
-      return (num / 1e9).toFixed(2) + 'b';
+      return (num / 1e9).toFixed(2) + 'B';
     } else if (num >= 1e6) {
-      return (num / 1e6).toFixed(2) + 'm';
+      return (num / 1e6).toFixed(2) + 'M';
     }
 
     return num.toFixed(2);
