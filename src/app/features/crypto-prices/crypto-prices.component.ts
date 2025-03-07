@@ -5,7 +5,7 @@ import {CommonModule} from '@angular/common';
 import {MatTabChangeEvent, MatTabsModule} from '@angular/material/tabs';
 import {DataTableComponent} from '../../shared/components/data-table/data-table.component';
 import {CryptoExchangeService} from '../../shared/services/crypto-exchange.service';
-import {BehaviorSubject, EMPTY, map, Observable, Subject, takeUntil} from 'rxjs';
+import {BehaviorSubject, EMPTY, map, Observable, Subject, switchMap, takeUntil} from 'rxjs';
 import {MatCardModule} from '@angular/material/card';
 import {ShortNumberPipe} from '../../shared/pipes/short-number.pipe';
 import {CryptoAsset} from '../../shared/models/crypto-much-price.model';
@@ -22,7 +22,7 @@ export class CryptoPricesComponent implements OnInit, OnDestroy {
   muchPriceData$!: Observable<CryptoAsset[]>;
   exchanges$!: Observable<Exchange[]>;
   dogecoinData$!: Observable<CryptoAsset | undefined>;
-  activeTab$ = new BehaviorSubject<number>(0); //  Initialiser avec 0 pour charger les données de muchPriceData au premier chargement
+  activeTab$ = new BehaviorSubject<number>(0);
   private destroy$ = new Subject<void>();
 
   muchPriceColumns: TableColumn[] = [
@@ -74,18 +74,38 @@ export class CryptoPricesComponent implements OnInit, OnDestroy {
     private cryptoExchangeService: CryptoExchangeService
   ) {}
 
-  ngOnInit() {
-    this.muchPriceData$ = this.cryptoMuchPriceService
-      .getCryptosWithRefresh(APP_SETTINGS.refresh.interval)
-      .pipe(takeUntil(this.destroy$));
-    this.exchanges$ = this.cryptoExchangeService
-      .getTopExchangesWithRefresh(APP_SETTINGS.refresh.interval)
-      .pipe(takeUntil(this.destroy$));
+  ngOnInit(): void {
+    // Initial call to get top exchanges for the top card
+    this.exchanges$ = this.cryptoExchangeService.getTopExchanges().pipe(takeUntil(this.destroy$));
 
-    this.dogecoinData$ = this.muchPriceData$.pipe(
-      map((data) => data.find((crypto: CryptoAsset) => crypto.name === 'Dogecoin')),
-      takeUntil(this.destroy$)
-    );
+    // Call to keep the Dogecoin data updated all the time
+    this.dogecoinData$ = this.cryptoMuchPriceService
+      .getCryptosWithRefresh(APP_SETTINGS.refresh.longInterval)
+      .pipe(
+        map((data) => data.find((crypto) => crypto.name === 'Dogecoin')),
+        takeUntil(this.destroy$)
+      );
+
+    // Load data based on the active tab
+    this.activeTab$
+      .pipe(
+        switchMap((tabIndex) => {
+          if (tabIndex === 0) {
+            // Markets tab is active
+            this.muchPriceData$ = this.cryptoMuchPriceService
+              .getCryptosWithRefresh(APP_SETTINGS.refresh.shortInterval)
+              .pipe(takeUntil(this.destroy$));
+          } else if (tabIndex === 1) {
+            // Exchanges tab is active
+            this.exchanges$ = this.cryptoExchangeService
+              .getTopExchangesWithRefresh(APP_SETTINGS.refresh.shortInterval)
+              .pipe(takeUntil(this.destroy$));
+          }
+          return EMPTY;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   tabChange(event: MatTabChangeEvent) {

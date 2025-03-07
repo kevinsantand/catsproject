@@ -4,7 +4,6 @@ import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/
 
 interface PurchaseFormData {
   numberOfTickets: number;
-  ticketPriceUsd: number;
   totalCostUsd: number;
   totalCostDoge: number;
 }
@@ -18,18 +17,6 @@ interface PurchaseFormData {
 export class PurchaseConfirmationModalComponent {
   constructor(
     public dialogRef: MatDialogRef<PurchaseConfirmationModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {form: PurchaseFormData}
+    @Inject(MAT_DIALOG_DATA) public purchaseConfirmation: {form: PurchaseFormData}
   ) {}
-
-  get numberOfTickets(): number {
-    return this.data.form.numberOfTickets || 0;
-  }
-
-  get totalCostUsd(): number {
-    return this.data.form.totalCostUsd || 0;
-  }
-
-  get totalCostDoge(): number {
-    return this.data.form.totalCostDoge || 0;
-  }
 }
