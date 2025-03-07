@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {interval, map, Observable, of, startWith, switchMap, tap} from 'rxjs';
+import {interval, map, Observable, startWith, switchMap} from 'rxjs';
 import {APP_SETTINGS} from '../../app.config';
 import {Exchange} from '../models/crypto-exchange.model';
 
@@ -16,7 +16,7 @@ export class CryptoExchangeService {
       .pipe(map((response) => response.data));
   }
 
-  getTopExchangesWithRefresh(refreshInterval = 30000): Observable<Exchange[]> {
+  getTopExchangesWithRefresh(refreshInterval: number): Observable<Exchange[]> {
     return interval(refreshInterval).pipe(
       startWith(0),
       switchMap(() => this.getTopExchanges())

@@ -1,11 +1,9 @@
-<h2 mat-dialog-title>Confirmation d'achat</h2>
-<mat-dialog-content class="mat-typography">
-  <h3>Résumé de votre achat</h3>
-
-  <div class="purchase-summary">
-    <p><strong>Nombre de tickets :</strong> {{ numberOfTickets }}</p>
-    <p><strong>Prix total en USD :</strong> {{ totalCostUsd }}</p>
-    <p><strong>Prix total en Dogecoin :</strong> {{ totalCostDoge }}</p>
+<mat-dialog-content>
+  <h3>Summary of your purchase</h3>
+  <div>
+    <p><strong>Number of tickets :</strong> {{ purchaseConfirmation.form.numberOfTickets }}</p>
+    <p><strong>Total Cost USD :</strong> ${{ purchaseConfirmation.form.totalCostUsd }}</p>
+    <p><strong>Total Cost Dogecoin :</strong> ${{ purchaseConfirmation.form.totalCostDoge }}</p>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

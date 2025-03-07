@@ -13,7 +13,7 @@
           height="80"
         />
 
-        <div aria-live="polite" aria-atomic="true" class="data-container">
+        <div aria-live="polite" aria-atomic="true">
           @if (dogecoinData$ | async; as dogecoinData) {
           <p><strong>Current Price:</strong> {{ dogecoinData?.priceUsd | currency }}</p>
           <p><strong>24h Volume:</strong> ${{ dogecoinData?.volumeUsd24Hr ?? '' | shortNumber }}</p>
@@ -42,7 +42,7 @@
           width="150"
           height="100"
         />
-        <div aria-live="polite" aria-atomic="true" class="data-container">
+        <div aria-live="polite" aria-atomic="true">
           @if (exchanges$ | async; as exchanges) {
           <p><strong>Top Exchange:</strong> {{ exchanges[0].name }}</p>
           <p><strong>24h Volume:</strong> ${{ exchanges[0].volumeUsd | shortNumber }}</p>
