@@ -35,6 +35,7 @@ import {PurchaseConfirmationModalComponent} from './purchase-confirmation-modal/
 })
 export class TransportTicketPurchaseComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+  private cryptoMuchPriceService = inject(CryptoMuchPriceService);
   readonly dialog = inject(MatDialog);
   dogeCoinValue$!: Observable<number>;
 
@@ -44,8 +45,6 @@ export class TransportTicketPurchaseComponent implements OnInit, OnDestroy {
     totalCostUsd: new FormControl({value: 4, disabled: true}),
     totalCostDoge: new FormControl({value: 0, disabled: true}),
   });
-
-  constructor(private cryptoMuchPriceService: CryptoMuchPriceService) {}
 
   ngOnInit(): void {
     // Call to get the Dogecoin price
